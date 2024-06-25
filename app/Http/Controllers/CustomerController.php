@@ -1,6 +1,5 @@
 <?php
 
-// app/Http/Controllers/CustomerController.php
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -23,16 +22,16 @@ class CustomerController extends Controller
         $filePath = $request->file('file')->store('uploads');
 
         $file = fopen(storage_path('app/' . $filePath), 'r');
-        $header = fgetcsv($file); // Read the first row as the header
+        $header = fgetcsv($file);
 
-        // Convert header values to lowercase and remove spaces
+        
         $header = array_map(function($value) {
             return strtolower(str_replace(' ', '_', $value));
         }, $header);
 
         while ($row = fgetcsv($file)) {
             $data = array_combine($header, $row);
-            // Insert data into the database
+        
             Customer::create([
                 'customer_id' => $data['customer_id'],
                 'first_name' => $data['first_name'],
@@ -40,8 +39,8 @@ class CustomerController extends Controller
                 'company' => $data['company'],
                 'city' => $data['city'],
                 'country' => $data['country'],
-                'phone1' => $data['phone_1'], // Adjusted for field name difference
-                'phone2' => $data['phone_2'], // Adjusted for field name difference
+                'phone1' => $data['phone_1'],
+                'phone2' => $data['phone_2'],
                 'email' => $data['email'],
                 'subscription_date' => $data['subscription_date'],
                 'website' => $data['website'],
